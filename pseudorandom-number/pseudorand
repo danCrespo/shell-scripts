@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+random=$$ # Initialize the seed to the PID of the script
+upper_limit="$1"
+
+random_number=$(("$random" % "$upper_limit" + 1))
+
+echo "$random_number"

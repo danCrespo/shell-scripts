@@ -1,0 +1,22 @@
+# Built-in folders
+.vscode
+.DS_Store
+
+# Compressed files and logs
+*.tar.gz
+*.log
+*.err
+
+# Sensistive content 
+*.env
+certificates
+
+# Directories with files in 
+# development and/or incomplete
+# or from another mastermind/owner
+examples/
+scripts/
+on-development/
+mail-techniques/
+**/manifests/
+*.y*ml

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# Simply command to join a Worker to the control-plane. 
+kubeadm join https://192.168.0.7:6443 \
+  --apiserver-advertise-address 192.168.0.7 \
+  --apiserver-bind-port 6444 \
+  --control-plane 192.168.0.7:6443 \
+  --cri-socket unix:///var/run/dockerd.sock \
+  --discovery-token-ca-cert-hash sha256:9d2c6fb139cc4f639df8ad75d2fe4eae761a5b4c055c0f8a6be335db7f88049f \
+  --discovery-token 9d2c6fb139cc4f639df8ad75d2fe4eae761a5b4c055c0f8a6be335db7f88049f

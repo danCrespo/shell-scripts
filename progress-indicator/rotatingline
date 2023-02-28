@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+
+# Purpose: Shows what appears to be a rotating line as the process runs.
+
+# set -x
+
+# Script or command to be executed
+script_or_cmd="$1"
+
+echo="echo -e"
+
+function rotate_line {
+
+  interval=1 # Sleep time between "twirls"
+  tcount="0" # For each TCOUNT the line twirls one increment
+
+  while :; do                 # Loop forever...until this function is killed
+    tcount=$(("$tcount" + 1)) # Increment the TCOUNT
+
+    case "$tcount" in
+
+    "1")
+      $echo '-'"\b\c"
+      sleep $interval
+      ;;
+    "2")
+      $echo '\\'"\b\c"
+      sleep $interval
+      ;;
+    "3")
+      $echo "|\b\c"
+      sleep $interval
+      ;;
+    "4")
+      $echo "/\b\c"
+      sleep $interval
+      ;;
+    *)
+      tcount="0" # Reset the tcount to "0", zero.
+      ;;
+
+    esac
+  done
+}
+
+# This is a technique tto use rotate_line in a shell script
+
+##########################################################
+#               BEGINNING OF MAIN
+##########################################################
+
+rotate_line &   # Run the function in the background.
+rotate_pid="$!" # Capture the PID of the last background process.
+
+"$script_or_cmd"
+
+# Stop the rotating line function.
+
+kill -9 "$rotate_pid"
+
+# Cleanup...this removes the left over line.
+$echo "\b\b  "
+exit 0

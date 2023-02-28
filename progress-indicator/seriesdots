@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# Purpose: prints a series of dots
+
+condition="$1"
+
+[ -z "$condition" ] && condition=true
+
+while "$condition"; do
+
+  echo -e ".\c"
+  sleep 1
+
+done
