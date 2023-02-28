@@ -92,7 +92,7 @@ install_cri_dockerd() {
       "promiscMode": true,
       "ipam": {
         "type": "host-local",
-        "subnet": "192.168.0.0/16",
+        "subnet": "10.2.0.0/16",
         "routes": [
           { "dst": "0.0.0.0/0" },
           { "dst": "::/0" }
@@ -168,15 +168,12 @@ apt-get update &&
     software-properties-common
 
 # Adds docker repository
-add_docker_repo
-
-apt-get update 
+add_docker_repo &&
+ apt-get update
 
 # Gets and installs docker using the docker script
 # source: <https://docs.docker.com/engine/install/debian/#install-using-the-convenience-script>
-$sudo curl https://get.docker.com | bash
-
-sleep 5
+$sudo curl https://get.docker.com | bash &&
 
 # Adds the current user to docker's group.
 # Required if you want to run docker commands without `sudo`
@@ -199,7 +196,7 @@ EOF'
 # Adds the directory to the systemd path
 # to be used for docker
 mkdir -p "$systemdpath"/docker.service.d            
-systemctl daemon-reload && systemctl restart docker 
+systemctl daemon-reload && systemctl restart docker &&
 
 # Adds the gpg key and installs the repository of kubernetes
 $sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - 
@@ -211,7 +208,7 @@ EOF"
 # Installs the binaries of kubernetes
 apt-get update &&                               
   apt-get install -y kubelet kubeadm kubectl && 
-  apt-mark hold kubelet kubeadm kubectl         
+  apt-mark hold kubelet kubeadm kubectl &&
 
 # Initializes the cluster (Master control-plane, APIserver and pods)
 init_cluster
