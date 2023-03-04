@@ -6,7 +6,7 @@ _This project is still under construction_
 
 ---
 
-### Description.
+## Description:
 Collection of scripts for ___Bourne shell___, ___Korn shell___ and ___Bourne Again shell___ (mostly you will find for bash).
 
 The purpose of this collection is to share simple scripts that execute basic tasks for the administration of `UNIX-based` 
@@ -15,7 +15,7 @@ file processing, bash completion, certificate creation, among others and some ex
 
 ---
 
-### Structure.
+## Structure.
 
 The collection is divided into different directories from which the content can be inferred given its name (or is it intended).
 In each directory you will find a `README.md` file in which its content, use and necessary information will be described in greater
@@ -39,8 +39,28 @@ The directories and their existing content up to now are listed and described be
     Some templates that can be customized and used in your scripts.
     
 - __kubernetes:__  
-    Tasks related to installing and deploying  `Kubernetes` clusters, such as:  
+    Tasks related to installing and deploying `Kubernetes` clusters, such as:
     - Automated installation of dependencies and binaries.
     - Creation of certificates (CA and TLS/authentication, these __will be self-signed__).
     - kubectl cheat sheets.
-    - Adding workers to your control plane
+    - Adding workers to your control plane.  
+
+- __proccessing-files:__  
+    File processing, search for words, change file mode bits, etc.
+
+- __progress-indicator:__  
+    Simple scripts that print decorators to the console, indicating that some action is being performed 
+    or showing the progress of the action.
+
+- __pseudorandom-number:__
+    Generates a pseudorandom number
+
+- __time-scripts:__
+    Scripts to perform time related operations.
+
+---
+
+If you find any errors or suggestions, I would appreciate it if you would report
+it to me, or rather I encourage you to do so.
+
+I hope you find something useful here
