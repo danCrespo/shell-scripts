@@ -15,7 +15,7 @@ keyrings=/etc/apt/keyrings
 dockergpg=https://download.docker.com/linux/debian
 systemdpath=/etc/systemd/system
 sourceslist=/etc/apt/sources.list.d
-calico_manifest_url=https://projectcalico.docs.tigera.io/manifests
+calico_manifest_url=https://raw.githubusercontent.com/projectcalico/calico/v3.27.2/manifests
 
 # It is neccesarry to be executed as root.
 if ! [ "$(id -u)" = 0 ]; then
@@ -59,12 +59,23 @@ add_docker_repo() {
 install_cri_dockerd() {
   # If 'go' isn't installed, then installs 'go'
   # to build the Container Runtime (cri-dockerd)
-  [ ! "$(command -v go)" ] && apt install golang-go >/dev/null 2>&1
+  if [ ! "$(command -v go)" ];then
+     apt install golang-go >/dev/null 2>&1
+  fi
+
+    local go1207="~/go/bin/go1.20.7"
+
+   if [ ! "$(command -v "$go1207")"
+     go install golang.org/dl/go1.20.7@latest
+     go1.20.7 download
+   fi
+
+   alias go="$go1207"
 
   # Clones the cri-dockerd repository and builds the executable
   cd && $sudo git clone https://github.com/Mirantis/cri-dockerd.git
   cd cri-docker || return
-  $sudo mkdir bin && go get && go build -o bin/cri-dockerd
+  $sudo mkdir bin && go mod tidy && go build -o bin/cri-dockerd
 
   [ ! -d /usr/local/bin ] && mkdir -p /usr/local/bin 
 
@@ -119,13 +130,11 @@ init_cluster() {
   
   if
     kubeadm init --pod-network-cidr=10.2.0.0/16 \
-      --cri-socket=unix:///var/run/cri-dockerd.socket \
-      --cert-dir="$CERTS_DIR" \
-      --service-dns-domain=cluster.local
+ --cri-socket=unix:///var/run/cri-dockerd.socket
   then
 
     $sudo mkdir -p "$HOME"/.kube
-    cp -i /etc/kubernetes/admin.conf "$HOME".kube/config 
+    cp -i /etc/kubernetes/admin.conf "$HOME"/.kube/config 
     chown "$(id -u)":"$(id -g)" "$HOME"/.kube/config     
 
     sleep 5
@@ -158,7 +167,6 @@ init_cluster() {
 # Installs the necessary dependencies
 
 apt-get update &&
-  
   apt-get install -y \
     ca-certificates \
     curl \
